@@ -1,15 +1,17 @@
-# Contribution [#]: [Issue Title]
+# Contribution [697]: [lute test library: Adding arbitrarily nested 'suites']
 
-**Contribution Number:** [1 / 2 / 3]
-**Student:** [Your Name]
-**Issue:** [GitHub issue link]
-**Status:** [Phase I / Phase II / Phase III / Phase IV] [In Progress / Complete]
+**Contribution Number:** [697]
+**Student:** [Liam Bagabag]
+**Issue:** [https://github.com/luau-lang/lute/issues/697]
+**Status:** [Phase I] [Complete]
 
 ---
 
 ## Why I Chose This Issue
 
 [1-2 paragraphs explaining why this issue interests you, how it matches your skills/learning goals, what you hope to learn]
+
+This project interests me because it is well scoped and uses a language i'm interested in (luau). I have some moderate experience with lua and c++. According to Claude, it should be generally easy to pick up and I'd like to take a crack and see how well I can pick up on new codebases.
 
 ---
 
