@@ -1,8 +1,8 @@
-# Contribution [697]: [lute test library: Adding arbitrarily nested 'suites']
+# Contribution [6031]: [Cannot use instance of Singleton as default prop value]
 
-**Contribution Number:** [697]
+**Contribution Number:** [6031]
 **Student:** [Liam Bagabag]
-**Issue:** [https://github.com/luau-lang/lute/issues/697]
+**Issue:** [https://github.com/sorbet/sorbet/issues/6031]
 **Status:** [Phase I] [Complete]
 
 ---
