@@ -1,15 +1,13 @@
-# Contribution [6031]: [Cannot use instance of Singleton as default prop value]
+# Contribution 6031: Cannot use instance of Singleton as default prop value
 
-**Contribution Number:** [6031]
-**Student:** [Liam Bagabag]
+**Contribution Number:** 6031
+**Student:** Liam Bagabag
 **Issue:** [https://github.com/sorbet/sorbet/issues/6031]
-**Status:** [Phase II] [Complete]
+**Status:** Phase II Complete
 
 ---
 
 ## Why I Chose This Issue
-
-[1-2 paragraphs explaining why this issue interests you, how it matches your skills/learning goals, what you hope to learn]
 
 I chose this issue because the project tackles a problem that delves into
 a basic aspect of compiler work/understanding. It is a project that is
@@ -22,23 +20,19 @@ help me learn more about the internals of code tooling like Sorbet.
 
 ### Problem Description
 
-[In your own words, what's broken or missing?]
 The issue I'm working on is a bug in the type checker that passes specific
 syntax related to the `Singleton` class even though it should not be allowed.
 
 ### Expected Behavior
 
-[What should happen?]
 The type checker should correctly report the error.
 
 ### Current Behavior
 
-[What actually happens?]
 Right now, the checker reports "No errors! Great job.".
 
 ### Affected Components
 
-[Which parts of the codebase are involved?]
 The related files involved all live within `gems/sorbet-runtime/lib/types/props`. This part of the codebase deals with the runtime library where the library
 defines the bounds of a Singleton instance(s).
 
@@ -52,8 +46,6 @@ Specifically, the files involved are:
 ## Reproduction Process
 
 ### Environment Setup
-
-[Notes on setting up your local development environment - challenges you faced, how you solved them]
 
 My working environment is a rolling linux distribution while the codebase
 works on a pinned version of dependencies. This resulted in me being unable
