@@ -3,7 +3,7 @@
 **Contribution Number:** [6031]
 **Student:** [Liam Bagabag]
 **Issue:** [https://github.com/sorbet/sorbet/issues/6031]
-**Status:** [Phase I] [Complete]
+**Status:** [Phase II] [Complete]
 
 ---
 
@@ -23,18 +23,29 @@ help me learn more about the internals of code tooling like Sorbet.
 ### Problem Description
 
 [In your own words, what's broken or missing?]
+The issue I'm working on is a bug in the type checker that passes specific
+syntax related to the `Singleton` class even though it should not be allowed.
 
 ### Expected Behavior
 
 [What should happen?]
+The type checker should correctly report the error.
 
 ### Current Behavior
 
 [What actually happens?]
+Right now, the checker reports "No errors! Great job.".
 
 ### Affected Components
 
 [Which parts of the codebase are involved?]
+The related files involved all live within `gems/sorbet-runtime/lib/types/props`. This part of the codebase deals with the runtime library where the library
+defines the bounds of a Singleton instance(s).
+
+Specifically, the files involved are:
+- `gems/sorbet-runtime/lib/types/props/utils.rb`
+- `gems/sorbet-runtime/lib/types/props/private/apply_default.rb`
+- `gems/sorbet-runtime/lib/types/props/decorator.rb`
 
 ---
 
@@ -44,17 +55,33 @@ help me learn more about the internals of code tooling like Sorbet.
 
 [Notes on setting up your local development environment - challenges you faced, how you solved them]
 
+My working environment is a rolling linux distribution while the codebase
+works on a pinned version of dependencies. This resulted in me being unable
+to build the project through regular means.
+
+Instead, I have opted to create a docker container to allow me to create
+the binaries for this project. I will not however commit this dockerfile
+in the final pull request.
+
 ### Steps to Reproduce
 
-1. [Step 1]
-2. [Step 2]
-3. [Observed result]
+1. Build the project binaries using Docker.
+    - see [./Dockerfile]
+2. Pass the test file provided in the issue.
+    - In my case, to do so through the Dockerfile: `$DOCKER run --rm -v $(pwd):/code sorbet /code/test.rb`
+    - the test file has been pasted into `test.rb`.
+    - see [./test.rb]
+3. As the observed result suggests, the return value is: "No errors! Great job."
+    - see [./wk2-evidence-01.png]
 
 ### Reproduction Evidence
 
 - **Commit showing reproduction:** [Link to commit in your fork]
-- **Screenshots/logs:** [If applicable]
-- **My findings:** [What you discovered during reproduction]
+- **Screenshots/logs:** [./wk2-evidence-01.png]
+- **My findings:** The hardest part was actually building the project. It's a bit difficult specifically
+    for my system due to the issues mentioned before. Once that was done, my next struggle was interacting
+    with the container where the binaries live. I will probably work on the Dockerfile a bit more to
+    make it easier for me before the next phase.
 
 ---
 
