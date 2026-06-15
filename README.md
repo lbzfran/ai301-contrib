@@ -11,7 +11,10 @@
 
 [1-2 paragraphs explaining why this issue interests you, how it matches your skills/learning goals, what you hope to learn]
 
-This project interests me because it is well scoped and uses a language i'm interested in (luau). I have some moderate experience with lua and c++. According to Claude, it should be generally easy to pick up and I'd like to take a crack and see how well I can pick up on new codebases.
+I chose this issue because the project tackles a problem that delves into
+a basic aspect of compiler work/understanding. It is a project that is
+genuinely interesting to me, and I hope that exploring the codebase will
+help me learn more about the internals of code tooling like Sorbet.
 
 ---
 
