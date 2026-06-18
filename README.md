@@ -2,8 +2,8 @@
 
 **Contribution Number:** 6031
 **Student:** Liam Bagabag
-**Issue:** [https://github.com/sorbet/sorbet/issues/6031]
-**Status:** Phase II Complete
+**Issue:** https://github.com/sorbet/sorbet/issues/6031
+**Status:** Phase II In-Progress
 
 ---
 
@@ -58,18 +58,18 @@ in the final pull request.
 ### Steps to Reproduce
 
 1. Build the project binaries using Docker.
-    - see [./Dockerfile]
+    - see `./Dockerfile`
 2. Pass the test file provided in the issue.
     - In my case, to do so through the Dockerfile: `$DOCKER run --rm -v $(pwd):/code sorbet /code/test.rb`
     - the test file has been pasted into `test.rb`.
-    - see [./test.rb]
+    - see `./test.rb`
 3. As the observed result suggests, the return value is: "No errors! Great job."
-    - see [./wk2-evidence-01.png]
+    - see `./wk2-evidence-01.png`
 
 ### Reproduction Evidence
 
-- **Commit showing reproduction:** [Link to commit in your fork]
-- **Screenshots/logs:** [./wk2-evidence-01.png]
+- **Commit showing reproduction:** https://github.com/lbzfran/sorbet/commits/fix-issue-6031/
+- **Screenshots/logs:** `./wk2-evidence-01.png`
 - **My findings:** The hardest part was actually building the project. It's a bit difficult specifically
     for my system due to the issues mentioned before. Once that was done, my next struggle was interacting
     with the container where the binaries live. I will probably work on the Dockerfile a bit more to
@@ -81,17 +81,22 @@ in the final pull request.
 
 ### Analysis
 
-[Your analysis of the root cause - what's causing the issue?]
+The cause is an inherent missing behavior in how the `Singleton` class is parsed/handled.
 
 ### Proposed Solution
 
-[High-level description of your fix approach]
+Following the proposed solution of the maintainer who opened the issue, I will modify the parsing utility to prevent the behavior from passing as "good" by the checker.
+
+As mentioned, the specific files related are the following:
+- `gems/sorbet-runtime/lib/types/props/utils.rb`
+- `gems/sorbet-runtime/lib/types/props/private/apply_default.rb`
+- `gems/sorbet-runtime/lib/types/props/decorator.rb`
 
 ### Implementation Plan
 
 Using UMPIRE framework (adapted):
 
-**Understand:** [Restate the problem]
+**Understand:** The type checker incorrectly flags `Singleton` instance being used with as a default prop value as being correct behavior, when it is not.
 
 **Match:** [What similar patterns/solutions exist in the codebase?]
 
@@ -100,11 +105,12 @@ Using UMPIRE framework (adapted):
 2. [Add function Z]
 3. [Update tests]
 
-**Implement:** [Link to your branch/commits as you work]
+**Implement:** https://github.com/lbzfran/sorbet/commits/fix-issue-6031/
 
 **Review:** [Self-review checklist - does it follow the project's contribution guidelines?]
 
-**Evaluate:** [How will you verify it works?]
+**Evaluate:** The type checker must flag the test code being passed as having an actual error.
+- My pull request will need to have an accompanying test case that properly evaluates the issue. I created an initial impromptu way to test, but for the final pull request I will need to adhere to the codebase standards (optional).
 
 ---
 
