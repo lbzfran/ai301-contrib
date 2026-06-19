@@ -3,7 +3,7 @@
 **Contribution Number:** 6031
 **Student:** Liam Bagabag
 **Issue:** https://github.com/sorbet/sorbet/issues/6031
-**Status:** Phase II In-Progress
+**Status:** Phase II Complete
 
 ---
 
@@ -98,16 +98,16 @@ Using UMPIRE framework (adapted):
 
 **Understand:** The type checker incorrectly flags `Singleton` instance being used with as a default prop value as being correct behavior, when it is not.
 
-**Match:** [What similar patterns/solutions exist in the codebase?]
+**Match:** Most of the functions and classes found within `gems/sorbet-runtime/lib/types/props` have very similar structures, and it is definitely worth matching my proposal based on their working syntax. 
 
 **Plan:** [Step-by-step implementation plan]
-1. [Modify file X to do Y]
-2. [Add function Z]
-3. [Update tests]
+1. Modify the following three files (full path mentioned above): `utils.rb, apply_default.rb, decorator.rb`
+2. Add the correct logic that would cause the behavior to be flagged.
+3. Clean up the test cases to match the syntax/style of the codebase.
 
 **Implement:** https://github.com/lbzfran/sorbet/commits/fix-issue-6031/
 
-**Review:** [Self-review checklist - does it follow the project's contribution guidelines?]
+**Review:** The guidelines are pretty loose, and since the "good first issues" are well scoped, as long as I myself only work within the scope of the issue then there should be no issues.
 
 **Evaluate:** The type checker must flag the test code being passed as having an actual error.
 - My pull request will need to have an accompanying test case that properly evaluates the issue. I created an initial impromptu way to test, but for the final pull request I will need to adhere to the codebase standards (optional).
