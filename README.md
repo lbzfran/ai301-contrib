@@ -3,7 +3,7 @@
 **Contribution Number:** 6031
 **Student:** Liam Bagabag
 **Issue:** https://github.com/sorbet/sorbet/issues/6031
-**Status:** Phase II Complete
+**Status:** Phase III In-Progress
 
 ---
 
@@ -20,7 +20,7 @@ help me learn more about the internals of code tooling like Sorbet.
 
 ### Problem Description
 
-The issue I'm working on is a bug in the type checker that passes specific
+The issue I'm working on is a bug in the type checker's runtime that passes specific
 syntax related to the `Singleton` class even though it should not be allowed.
 
 ### Expected Behavior
@@ -33,8 +33,9 @@ Right now, the checker reports "No errors! Great job.".
 
 ### Affected Components
 
-The related files involved all live within `gems/sorbet-runtime/lib/types/props`. This part of the codebase deals with the runtime library where the library
-defines the bounds of a Singleton instance(s).
+The related files involved all live within `gems/sorbet-runtime/lib/types/props`. 
+This part of the codebase deals with the runtime library where the library
+defines the bounds of a Singleton instance.
 
 Specifically, the files involved are:
 - `gems/sorbet-runtime/lib/types/props/utils.rb`
@@ -51,19 +52,23 @@ My working environment is a rolling linux distribution while the codebase
 works on a pinned version of dependencies. This resulted in me being unable
 to build the project through regular means.
 
-Instead, I have opted to create a docker container to allow me to create
-the binaries for this project. I will not however commit this dockerfile
-in the final pull request.
+However, I realized that since the changes I propose is effective only at the
+runtime level, there is no need to worry about building the binary.
+
+For further clarification, the binary `sorbet` is a static type checker, while
+`sorbet-runtime` is a library written in Ruby that runs alongside other ruby code
+at *runtime*.
+
+Therefore, contrary to my initial assumption, all we need to do is use the `bundle` utility
+to fetch the dependencies and run the test suite of the project.
 
 ### Steps to Reproduce
 
-1. Build the project binaries using Docker.
-    - see `./Dockerfile`
-2. Pass the test file provided in the issue.
-    - In my case, to do so through the Dockerfile: `$DOCKER run --rm -v $(pwd):/code sorbet /code/test.rb`
-    - the test file has been pasted into `test.rb`.
-    - see `./test.rb`
-3. As the observed result suggests, the return value is: "No errors! Great job."
+1. Obtain the project dependencies. At most, `ruby` is required to be installed in the environment.
+    - After reproducing the bug, I will doing future testing through a docker container. The prebuilt image is found at `docker.io/sorbetruby/sorbet-build-image:latest`.
+2. Run the following provided script: `./test_singleton_default.sh`.
+    - This script is a "manual" method of testing using the system environment to load the runtime library directly.
+4. The result is that the runtime checker does not correctly catch the mistake, and ruby's runtime catches a generic type error.
     - see `./wk2-evidence-01.png`
 
 ### Reproduction Evidence
@@ -74,6 +79,7 @@ in the final pull request.
     for my system due to the issues mentioned before. Once that was done, my next struggle was interacting
     with the container where the binaries live. I will probably work on the Dockerfile a bit more to
     make it easier for me before the next phase.
+  - update: I realized the hard way that I don't need to create a Dockerfile (and it is now therefore deprecated). As mentioned before, since I am concerned only with the runtime library, I do not need to build the `sorbet` binary myself. This saves a lot of headaches in testing.
 
 ---
 
@@ -117,10 +123,10 @@ Using UMPIRE framework (adapted):
 ## Testing Strategy
 
 ### Unit Tests
+I added two test cases within `test/types/props/optional.rb`.
 
-- [ ] Test case 1: [Description]
-- [ ] Test case 2: [Description]
-- [ ] Test case 3: [Description]
+- [ ] Test case 1: frozen singleton as default: verifies `Unset.instance.freeze` works and both instances share the same sentinel object.
+- [ ] Test case 2: clear error for non-frozen non-cloneable default: verifies the improved TypeError message mentions `frozen` and `clone-able`.
 
 ### Integration Tests
 
@@ -129,7 +135,8 @@ Using UMPIRE framework (adapted):
 
 ### Manual Testing
 
-[What you tested manually and results]
+I created a shell script that runs ruby on my machine, loads the runtime library, and runs the sample code provided in the issue and saved at `./test.rb`.
+For the test to pass, the runtime checker must throw an error related to the Singleton props.
 
 ---
 
