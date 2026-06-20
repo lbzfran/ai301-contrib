@@ -125,6 +125,15 @@ Using UMPIRE framework (adapted):
 ### Unit Tests
 I added two test cases within `test/types/props/optional.rb`.
 
+To run these two test cases in the docker container, I ran the following command:
+```sh
+podman run --rm \        
+  -v /home/liam/Projects/sorbet/gems/sorbet-runtime:/work \
+  --workdir /work \
+  docker.io/sorbetruby/sorbet-build-image:latest \
+  bash -c "bundle install --quiet && bundle exec rake test"
+```
+
 - [ ] Test case 1: frozen singleton as default: verifies `Unset.instance.freeze` works and both instances share the same sentinel object.
 - [ ] Test case 2: clear error for non-frozen non-cloneable default: verifies the improved TypeError message mentions `frozen` and `clone-able`.
 
