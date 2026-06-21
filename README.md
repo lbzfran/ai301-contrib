@@ -3,7 +3,7 @@
 **Contribution Number:** 6031
 **Student:** Liam Bagabag
 **Issue:** https://github.com/sorbet/sorbet/issues/6031
-**Status:** Phase III In-Progress
+**Status:** Phase III Complete
 
 ---
 
@@ -134,17 +134,12 @@ podman run --rm \
   bash -c "bundle install --quiet && bundle exec rake test"
 ```
 
-- [ ] Test case 1: frozen singleton as default: verifies `Unset.instance.freeze` works and both instances share the same sentinel object.
-- [ ] Test case 2: clear error for non-frozen non-cloneable default: verifies the improved TypeError message mentions `frozen` and `clone-able`.
+- [x] Test case 1: frozen singleton as default: verifies `Unset.instance.freeze` works and both instances share the same sentinel object.
+- [x] Test case 2: clear error for non-frozen non-cloneable default: verifies the improved TypeError message mentions `frozen` and `clone-able`.
 
 The before and after results of the test cases:
 - Before: [./wk3-evidence-01.png]
 - After: [./wk3-evidence-02.png]
-
-### Integration Tests
-
-- [ ] Integration scenario 1
-- [ ] Integration scenario 2
 
 ### Manual Testing
 
@@ -161,7 +156,7 @@ The results of the manual test after making the changes:
 
 ### Week 1 Progress
 
-[What you built this week, challenges faced, decisions made]
+I completed the test case for the issue as well as completed a possible solution.
 
 ### Code Changes
 
@@ -175,15 +170,30 @@ The results of the manual test after making the changes:
 
 ## Pull Request
 
-**PR Link:** [GitHub PR URL when submitted]
+**PR Link:** https://github.com/sorbet/sorbet/pull/10387
 
-**PR Description:** [Draft or final PR description - much of the content above can be adapted]
+**PR Description:** 
+```
+### Solution
+
+Frozen objects are now returned as-is. Non-frozen, non-cloneable objects fall through as before, but a rescue TypeError now re-raises with a message naming valid alternatives. Utils.deep_clone and deep_clone_freeze also gain the same frozen guard in their else branch.
+
+### Motivation
+
+Ruby raises a TypeError when attempting to clone or duplicate a Singleton. If T::Struct prop uses a Singleton instance as its default, Sorbet unconditionally calls deep_clone on it at every struct construction-- even in cases where the object is frozen and is safe to share.
+
+### Test Plan
+
+Added two test cases for props type:
+- Frozen Singleton default: asserts construction succeeds and all instances return the exact same object (via assert_same).
+- Non-frozen, non-cloneable default: asserts TypeError is raised with a more helpful message, naming frozen and cloneable objects as valid alternatives.
+```
 
 **Maintainer Feedback:**
 - [Date]: [Summary of feedback received]
 - [Date]: [How you addressed it]
 
-**Status:** [Awaiting review / Iterating / Approved / Merged]
+**Status:** Awaiting review
 
 ---
 
