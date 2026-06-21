@@ -169,7 +169,7 @@ The results of the manual test after making the changes:
     - `gems/sorbet-runtime/lib/types/props/utils.rb`
     - `gems/sorbet-runtime/lib/types/props/private/apply_default.rb`
 - **Key commits:** https://github.com/lbzfran/sorbet/commit/512c7ec0634d6659e9476d413941acc39f4147e8
-- **Approach decisions:** TO BE DONE
+- **Approach decisions:** COMPLETE
 
 ---
 
