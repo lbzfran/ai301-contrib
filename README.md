@@ -33,7 +33,7 @@ Right now, the checker reports "No errors! Great job.".
 
 ### Affected Components
 
-The related files involved all live within `gems/sorbet-runtime/lib/types/props`. 
+The related files involved all live within `gems/sorbet-runtime/lib/types/props`.
 This part of the codebase deals with the runtime library where the library
 defines the bounds of a Singleton instance.
 
@@ -66,7 +66,7 @@ to fetch the dependencies and run the test suite of the project.
 
 1. Obtain the project dependencies. At most, `ruby` is required to be installed in the environment.
     - After reproducing the bug, I will doing future testing through a docker container. The prebuilt image is found at `docker.io/sorbetruby/sorbet-build-image:latest`.
-2. Run the following provided script: `./test_singleton_default.sh`.
+2. Run the following provided script: `./manual-test.sh`.
     - This script is a "manual" method of testing using the system environment to load the runtime library directly.
 4. The result is that the runtime checker does not correctly catch the mistake, and ruby's runtime catches a generic type error.
     - see `./wk2-evidence-01.png`
@@ -104,11 +104,11 @@ Using UMPIRE framework (adapted):
 
 **Understand:** The type checker incorrectly flags `Singleton` instance being used with as a default prop value as being correct behavior, when it is not.
 
-**Match:** Most of the functions and classes found within `gems/sorbet-runtime/lib/types/props` have very similar structures, and it is definitely worth matching my proposal based on their working syntax. 
+**Match:** Most of the functions and classes found within `gems/sorbet-runtime/lib/types/props` have very similar structures, and it is definitely worth matching my proposal based on their working syntax.
 
-**Plan:** [Step-by-step implementation plan]
-1. Modify the following three files (full path mentioned above): `utils.rb, apply_default.rb, decorator.rb`
-2. Add the correct logic that would cause the behavior to be flagged.
+**Plan:**
+1. Modify any of the following three files (full path mentioned above): `utils.rb, apply_default.rb, and decorator.rb`
+2. Add the logic that would cause the behavior to be flagged correctly.
 3. Clean up the test cases to match the syntax/style of the codebase.
 
 **Implement:** https://github.com/lbzfran/sorbet/commits/fix-issue-6031/
@@ -127,7 +127,7 @@ I added two test cases within `test/types/props/optional.rb`.
 
 To run these two test cases in the docker container, I ran the following command:
 ```sh
-podman run --rm \        
+podman run --rm \
   -v /home/liam/Projects/sorbet/gems/sorbet-runtime:/work \
   --workdir /work \
   docker.io/sorbetruby/sorbet-build-image:latest \
@@ -137,6 +137,10 @@ podman run --rm \
 - [ ] Test case 1: frozen singleton as default: verifies `Unset.instance.freeze` works and both instances share the same sentinel object.
 - [ ] Test case 2: clear error for non-frozen non-cloneable default: verifies the improved TypeError message mentions `frozen` and `clone-able`.
 
+The before and after results of the test cases:
+- Before: [./wk3-evidence-01.png]
+- After: [./wk3-evidence-02.png]
+
 ### Integration Tests
 
 - [ ] Integration scenario 1
@@ -144,26 +148,28 @@ podman run --rm \
 
 ### Manual Testing
 
-I created a shell script that runs ruby on my machine, loads the runtime library, and runs the sample code provided in the issue and saved at `./test.rb`.
+I created a shell script `./manual-test.sh` that runs ruby on my system, loads the runtime library, and runs the sample code provided in the issue and saved at `./test.rb`.
 For the test to pass, the runtime checker must throw an error related to the Singleton props.
+
+The results of the manual test after making the changes:
+- Before: [./wk2-evidence-01.png]
+- After: [./wk3-evidence-03.png]
 
 ---
 
 ## Implementation Notes
 
-### Week [X] Progress
+### Week 1 Progress
 
 [What you built this week, challenges faced, decisions made]
 
-### Week [Y] Progress
-
-[Continue documenting as you work]
-
 ### Code Changes
 
-- **Files modified:** [List]
-- **Key commits:** [Links to important commits]
-- **Approach decisions:** [Why you chose certain approaches]
+- **Files modified:**
+    - `gems/sorbet-runtime/lib/types/props/utils.rb`
+    - `gems/sorbet-runtime/lib/types/props/private/apply_default.rb`
+- **Key commits:** https://github.com/lbzfran/sorbet/commit/512c7ec0634d6659e9476d413941acc39f4147e8
+- **Approach decisions:** TO BE DONE
 
 ---
 
