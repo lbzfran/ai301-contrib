@@ -3,7 +3,7 @@
 **Contribution Number:** 6031
 **Student:** Liam Bagabag
 **Issue:** https://github.com/sorbet/sorbet/issues/6031
-**Status:** Phase III Complete
+**Status:** Phase IV Complete (PR Submitted; awaiting review)
 
 ---
 
