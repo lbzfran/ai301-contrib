@@ -157,12 +157,15 @@ The results of the manual test after making the changes:
 ### Week 1 Progress
 
 I completed the test case for the issue as well as completed a possible solution.
+I received feedback that the change I'm proposing in my PR is going out of the
+blast zone of the issue. I reeled back the changes and asked for feedback if it's
+still possible to be reviewed.
 
 ### Code Changes
 
 - **Files modified:**
     - `gems/sorbet-runtime/lib/types/props/utils.rb`
-    - `gems/sorbet-runtime/lib/types/props/private/apply_default.rb`
+    - `gems/sorbet-runtime/test/types/props/optional.rb`
 - **Key commits:** https://github.com/lbzfran/sorbet/commit/512c7ec0634d6659e9476d413941acc39f4147e8
 - **Approach decisions:** COMPLETE
 
@@ -172,7 +175,7 @@ I completed the test case for the issue as well as completed a possible solution
 
 **PR Link:** https://github.com/sorbet/sorbet/pull/10387
 
-**PR Description:** 
+**PR Description:**
 ```
 ### Solution
 
@@ -190,8 +193,8 @@ Added two test cases for props type:
 ```
 
 **Maintainer Feedback:**
-- [Date]: [Summary of feedback received]
-- [Date]: [How you addressed it]
+- 6/22/26: One of the changes I made changed too much of the contract related to deep cloning, which could introduce new and unwanted issues as a result (breaking changes).
+- 6/25/26: After reviewing, there are two parts to the changes I made, and I determined that keeping the non-breaking part can still address the issue. I am in the process of confirming with maintainer if my PR can still be saved.
 
 **Status:** Awaiting review
 
@@ -201,15 +204,15 @@ Added two test cases for props type:
 
 ### Technical Skills Gained
 
-[What you learned technically]
+I'm learning that it's pretty easy to have oversight over important guidelines and rules when you're excited to push out your code. I have to remember in the future to slow down and confirm (maybe with someone else) that the changes I'm proposing will not affect anything else.
 
 ### Challenges Overcome
 
-[What was hard and how you solved it]
+I believe I am my worst opponent for this issue. While the maintainer was not coming across as harsh, it definitely felt like a stab in the back when I read their message. It took me a few days to get through the mental burden the review gave me but I'm learning to bounce back by remembering that the code and review is not personal in the slightest.
 
 ### What I'd Do Differently Next Time
 
-[Reflection on your process]
+I definitely need to keep a list or reminder of what I can and cannot do. I'm more of a tactile person, and while I do prefer just pushing out changes and see what happens, I understand for important software like this, it's important to double/triple check and ensure nothing noteworthy breaks.
 
 ---
 
